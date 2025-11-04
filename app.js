@@ -14,7 +14,7 @@ async function carregarDados() {
         
         // Event listener para filtro mensal
         document.getElementById('filtro-tipo-mensal').addEventListener('change', () => {
-            exibirAnalise Mensal(dadosOriginais.por_mes);
+            exibirAnaliseMensal(dadosOriginais.por_mes);
         });
         
     } catch (error) {
