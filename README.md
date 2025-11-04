@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/23320492/README.md)
 # Dashboard de Passagens | Consórcio Seriemas
 
 Dashboard interativo de análise de custos e indicadores de passagens do Consórcio Seriemas.
