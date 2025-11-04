@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Passagens | Consórcio Seriemas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="logo-seriemas.png" alt="Logo Seriemas" class="logo">
+                    <div class="title-section">
+                        <h1>Dashboard de Passagens</h1>
+                        <p>Análise de Custos e Indicadores - Consórcio Seriemas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Filtros de Segmentação -->
+        <section class="filtros-section">
+            <h2>Filtros de Segmentação</h2>
+            <div class="filtros-grid">
+                <div class="filtro-item">
+                    <label for="filtro-tipo">🎫 Tipo de Passagem</label>
+                    <select id="filtro-tipo">
+                        <option value="">Todos os Tipos</option>
+                    </select>
+                </div>
+                <div class="filtro-item">
+                    <label for="filtro-solicitante">👤 Solicitante</label>
+                    <select id="filtro-solicitante">
+                        <option value="">Todos os Solicitantes</option>
+                    </select>
+                </div>
+                <div class="filtro-item">
+                    <label for="filtro-mes">📅 Mês</label>
+                    <select id="filtro-mes">
+                        <option value="">Todos os Meses</option>
+                    </select>
+                </div>
+                <div class="filtro-item" style="align-self: flex-end;">
+                    <button class="btn-limpar-filtros" onclick="limparFiltros()">🗑️ Limpar Filtros</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- KPIs Section -->
+        <section class="kpis-section">
+            <h2>Indicadores Principais</h2>
+            
+            <div class="kpi-grid-4">
+                <div class="kpi-card blue">
+                    <div class="kpi-icon">💰</div>
+                    <div class="kpi-content">
+                        <h3>Custo Total</h3>
+                        <p class="kpi-value" id="custo-total">R$ 0,00</p>
+                        <p class="kpi-subtitle" id="qtd-passagens">0 passagens</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card green">
+                    <div class="kpi-icon">💵</div>
+                    <div class="kpi-content">
+                        <h3>Total Geral</h3>
+                        <p class="kpi-value" id="total-geral">R$ 0,00</p>
+                        <p class="kpi-subtitle">Incluindo custos adicionais</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card purple">
+                    <div class="kpi-icon">📊</div>
+                    <div class="kpi-content">
+                        <h3>Orçamento Total</h3>
+                        <p class="kpi-value" id="orcamento-total">R$ 0,00</p>
+                        <p class="kpi-subtitle" id="utilizacao-orcamento">0% utilizado</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card orange">
+                    <div class="kpi-icon">💳</div>
+                    <div class="kpi-content">
+                        <h3>Saldo Disponível</h3>
+                        <p class="kpi-value" id="saldo-disponivel">R$ 0,00</p>
+                        <p class="kpi-subtitle">Restante do orçamento</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Análise por Tipo -->
+        <section class="analise-tipo-section">
+            <h2>Análise por Tipo de Passagem</h2>
+            <h3>Distribuição de Custos por Categoria</h3>
+            <div id="tipos-list" class="tipos-list"></div>
+        </section>
+
+        <!-- Análise Mensal -->
+        <section class="analise-mensal-section">
+            <h2>Análise Mensal</h2>
+            <h3>Evolução de Custos ao Longo dos Meses</h3>
+            <div id="meses-list" class="meses-list"></div>
+        </section>
+
+        <!-- Top Solicitantes -->
+        <section class="solicitantes-section">
+            <h2>Top 10 Solicitantes</h2>
+            <h3>Maiores Custos por Solicitante</h3>
+            <div id="solicitantes-list" class="solicitantes-list"></div>
+        </section>
+
+        <!-- Custos Adicionais -->
+        <section class="custos-adicionais-section">
+            <h2>Custos Adicionais</h2>
+            <div class="custos-grid">
+                <div class="custo-card">
+                    <h4>🍽️ Alimentação</h4>
+                    <p class="custo-value" id="custo-alimentacao">R$ 0,00</p>
+                    <p class="custo-subtitle" id="qtd-alimentacao">0 itens</p>
+                </div>
+                <div class="custo-card">
+                    <h4>🏨 Hospedagem</h4>
+                    <p class="custo-value" id="custo-hospedagem">R$ 0,00</p>
+                    <p class="custo-subtitle" id="qtd-hospedagem">0 itens</p>
+                </div>
+                <div class="custo-card">
+                    <h4>🚖 Transporte</h4>
+                    <p class="custo-value" id="custo-transporte">R$ 0,00</p>
+                    <p class="custo-subtitle" id="qtd-transporte">0 itens</p>
+                </div>
+                <div class="custo-card">
+                    <h4>📋 Outros</h4>
+                    <p class="custo-value" id="custo-outros">R$ 0,00</p>
+                    <p class="custo-subtitle" id="qtd-outros">0 itens</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Elaborado e Atualizado Por: Mauricio Elias</p>
+            <p>Última Atualização: <span id="ultima-atualizacao">-</span></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+{
+  "kpis": {
+    "custo_total": 3176800.02,
+    "custo_total_passagens": 3176800.02,
+    "qtd_passagens": 4141,
+    "total_passagens": 4141,
+    "orcamento_total": 8672850.55,
+    "saldo_disponivel": 3809770.8600000013,
+    "utilizacao_orcamento": 56.1,
+    "total_geral": 4863079.6899999995
+  },
+  "custos_adicionais": {
+    "resumo": {
+      "reembolso": {
+        "valor": 493470.03,
+        "quantidade": 1549,
+        "percentual": "10.1"
+      },
+      "fretado": {
+        "valor": 447400.0,
+        "colaboradores": 616,
+        "percentual": "9.2"
+      },
+      "premio_baixada": {
+        "valor": 683886.5,
+        "quantidade": 348,
+        "percentual": "14.1"
+      },
+      "visitas_sede": {
+        "valor": 61523.14,
+        "quantidade": 11,
+        "percentual": "1.3"
+      },
+      "total_geral": 4863079.6899999995
+    }
+  },
+  "por_tipo": [
+    {
+      "tipo": "Folga de Campo",
+      "custo_total": 1522568.82,
+      "quantidade": 2031,
+      "percentual": 47.92775152400056
+    },
+    {
+      "tipo": "Mobilização",
+      "custo_total": 1380671.6199999999,
+      "quantidade": 1612,
+      "percentual": 43.46108068835884
+    },
+    {
+      "tipo": "Desmobilização",
+      "custo_total": 163900.92,
+      "quantidade": 329,
+      "percentual": 5.159308705871892
+    },
+    {
+      "tipo": "Não Classificado",
+      "custo_total": 62730.42999999999,
+      "quantidade": 117,
+      "percentual": 1.9746420802402285
+    },
+    {
+      "tipo": "Outros",
+      "custo_total": 11140.73,
+      "quantidade": 17,
+      "percentual": 0.3506903150926069
+    }
+  ],
+  "por_mes": [
+    {
+      "mes": "2025-01",
+      "custo_total": 28919.039999999997,
+      "orcamento": 1966.18,
+      "percentual": 1470.8236275417305,
+      "quantidade": 31
+    },
+    {
+      "mes": "2025-02",
+      "custo_total": 172949.15000000002,
+      "orcamento": 71421.9,
+      "percentual": 242.15142694327656,
+      "quantidade": 187
+    },
+    {
+      "mes": "2025-03",
+      "custo_total": 105814.95000000001,
+      "orcamento": 185351.87,
+      "percentual": 57.08868758648079,
+      "quantidade": 146
+    },
+    {
+      "mes": "2025-04",
+      "custo_total": 271965.38,
+      "orcamento": 248301.02,
+      "percentual": 109.53051260119673,
+      "quantidade": 335
+    },
+    {
+      "mes": "2025-05",
+      "custo_total": 251834.65000000002,
+      "orcamento": 402132.94,
+      "percentual": 62.6247255447415,
+      "quantidade": 315
+    },
+    {
+      "mes": "2025-06",
+      "custo_total": 333224.61,
+      "orcamento": 471610.7,
+      "percentual": 70.65671113908144,
+      "quantidade": 407
+    },
+    {
+      "mes": "2025-07",
+      "custo_total": 479473.23,
+      "orcamento": 611463.38,
+      "percentual": 78.41405482042113,
+      "quantidade": 589
+    },
+    {
+      "mes": "2025-08",
+      "custo_total": 486529.13,
+      "orcamento": 652056.46,
+      "percentual": 74.61457095295091,
+      "quantidade": 609
+    },
+    {
+      "mes": "2025-09",
+      "custo_total": 704434.95,
+      "orcamento": 725939.94,
+      "percentual": 97.03763509692,
+      "quantidade": 1076
+    },
+    {
+      "mes": "2025-10",
+      "custo_total": 341654.93000000005,
+      "orcamento": 1018748.88,
+      "percentual": 33.53671711521293,
+      "quantidade": 446
+    }
+  ],
+  "por_mes_tipo": {
+    "2025-01": {
+      "Mobilização": {
+        "custo_total": 18358.98,
+        "quantidade": 22
+      },
+      "Não Classificado": {
+        "custo_total": 10560.06,
+        "quantidade": 9
+      }
+    },
+    "2025-02": {
+      "Mobilização": {
+        "custo_total": 146168.15,
+        "quantidade": 169
+      },
+      "Não Classificado": {
+        "custo_total": 17150.0,
+        "quantidade": 11
+      },
+      "Visitas da Sede à Obra": {
+        "custo_total": 6661.0,
+        "quantidade": 4
+      },
+      "Folga de Campo": {
+        "custo_total": 2970.0,
+        "quantidade": 3
+      }
+    },
+    "2025-03": {
+      "Mobilização": {
+        "custo_total": 65483.090000000004,
+        "quantidade": 83
+      },
+      "Folga de Campo": {
+        "custo_total": 38511.19,
+        "quantidade": 59
+      },
+      "Visitas da Sede à Obra": {
+        "custo_total": 760.0,
+        "quantidade": 2
+      },
+      "Não Classificado": {
+        "custo_total": 135.33,
+        "quantidade": 1
+      },
+      "Outros": {
+        "custo_total": 925.34,
+        "quantidade": 1
+      }
+    },
+    "2025-04": {
+      "Mobilização": {
+        "custo_total": 185927.88999999998,
+        "quantidade": 167
+      },
+      "Folga de Campo": {
+        "custo_total": 76939.3,
+        "quantidade": 158
+      },
+      "Visitas da Sede à Obra": {
+        "custo_total": 9098.19,
+        "quantidade": 10
+      }
+    },
+    "2025-05": {
+      "Mobilização": {
+        "custo_total": 125849.78,
+        "quantidade": 131
+      },
+      "Folga de Campo": {
+        "custo_total": 111110.32,
+        "quantidade": 154
+      },
+      "Não Classificado": {
+        "custo_total": 4589.0,
+        "quantidade": 20
+      },
+      "Visitas da Sede à Obra": {
+        "custo_total": 9370.369999999999,
+        "quantidade": 9
+      },
+      "Outros": {
+        "custo_total": 915.18,
+        "quantidade": 1
+      }
+    },
+    "2025-06": {
+      "Mobilização": {
+        "custo_total": 185018.72000000003,
+        "quantidade": 197
+      },
+      "Folga de Campo": {
+        "custo_total": 130466.65999999997,
+        "quantidade": 159
+      },
+      "Não Classificado": {
+        "custo_total": 15532.060000000003,
+        "quantidade": 42
+      },
+      "Outros": {
+        "custo_total": 1251.25,
+        "quantidade": 5
+      },
+      "Visitas da Sede à Obra": {
+        "custo_total": 955.9200000000001,
+        "quantidade": 4
+      }
+    },
+    "2025-07": {
+      "Mobilização": {
+        "custo_total": 253524.7,
+        "quantidade": 271
+      },
+      "Folga de Campo": {
+        "custo_total": 208735.48,
+        "quantidade": 293
+      },
+      "Não Classificado": {
+        "custo_total": 6193.45,
+        "quantidade": 18
+      },
+      "Outros": {
+        "custo_total": 5228.6,
+        "quantidade": 4
+      },
+      "Visitas da Sede à Obra": {
+        "custo_total": 5791.0,
+        "quantidade": 3
+      }
+    },
+    "2025-08": {
+      "Folga de Campo": {
+        "custo_total": 337610.82,
+        "quantidade": 381
+      },
+      "Mobilização": {
+        "custo_total": 143354.12,
+        "quantidade": 220
+      },
+      "Outros": {
+        "custo_total": 1772.0,
+        "quantidade": 3
+      },
+      "Não Classificado": {
+        "custo_total": 641.17,
+        "quantidade": 2
+      },
+      "Visitas da Sede à Obra": {
+        "custo_total": 3151.02,
+        "quantidade": 3
+      }
+    },
+    "2025-09": {
+      "Mobilização": {
+        "custo_total": 173004.8,
+        "quantidade": 248
+      },
+      "Folga de Campo": {
+        "custo_total": 407345.57999999996,
+        "quantidade": 583
+      },
+      "Desmobilização": {
+        "custo_total": 122574.15999999999,
+        "quantidade": 240
+      },
+      "Não Classificado": {
+        "custo_total": 462.05,
+        "quantidade": 2
+      },
+      "Outros": {
+        "custo_total": 1048.3600000000001,
+        "quantidade": 3
+      }
+    },
+    "2025-10": {
+      "Desmobilização": {
+        "custo_total": 41326.76,
+        "quantidade": 89
+      },
+      "Folga de Campo": {
+        "custo_total": 208879.47000000003,
+        "quantidade": 241
+      },
+      "Mobilização": {
+        "custo_total": 83981.39,
+        "quantidade": 104
+      },
+      "Não Classificado": {
+        "custo_total": 7467.3099999999995,
+        "quantidade": 12
+      }
+    }
+  }
+}
