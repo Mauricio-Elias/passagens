@@ -24,123 +24,151 @@
 
     <!-- Main Content -->
     <div class="main-container">
-        <!-- Filtros de Segmentação -->
-        <section class="filtros-section">
-            <h2>Filtros de Segmentação</h2>
-            <div class="filtros-grid">
-                <div class="filtro-item">
-                    <label for="filtro-tipo">🎫 Tipo de Passagem</label>
-                    <select id="filtro-tipo">
-                        <option value="">Todos os Tipos</option>
-                    </select>
-                </div>
-                <div class="filtro-item">
-                    <label for="filtro-solicitante">👤 Solicitante</label>
-                    <select id="filtro-solicitante">
-                        <option value="">Todos os Solicitantes</option>
-                    </select>
-                </div>
-                <div class="filtro-item">
-                    <label for="filtro-mes">📅 Mês</label>
-                    <select id="filtro-mes">
-                        <option value="">Todos os Meses</option>
-                    </select>
-                </div>
-                <div class="filtro-item" style="align-self: flex-end;">
-                    <button class="btn-limpar-filtros" onclick="limparFiltros()">🗑️ Limpar Filtros</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- KPIs Section -->
-        <section class="kpis-section">
-            <h2>Indicadores Principais</h2>
-            
-            <div class="kpi-grid-4">
-                <div class="kpi-card blue">
-                    <div class="kpi-icon">💰</div>
-                    <div class="kpi-content">
+        
+        <!-- KPIs Principais -->
+        <section class="kpis-principais">
+            <div class="kpi-grid-main">
+                <div class="kpi-card-main blue">
+                    <div class="kpi-icon-main">💰</div>
+                    <div class="kpi-content-main">
                         <h3>Custo Total</h3>
-                        <p class="kpi-value" id="custo-total">R$ 0,00</p>
-                        <p class="kpi-subtitle" id="qtd-passagens">0 passagens</p>
+                        <p class="kpi-value-main" id="custo-total">R$ 0,00</p>
+                        <p class="kpi-subtitle-main" id="qtd-passagens">0 passagens</p>
                     </div>
                 </div>
 
-                <div class="kpi-card green">
-                    <div class="kpi-icon">💵</div>
-                    <div class="kpi-content">
-                        <h3>Total Geral</h3>
-                        <p class="kpi-value" id="total-geral">R$ 0,00</p>
-                        <p class="kpi-subtitle">Incluindo custos adicionais</p>
+                <div class="kpi-card-main purple">
+                    <div class="kpi-icon-main">📊</div>
+                    <div class="kpi-content-main">
+                        <h3>Orçamento Total (até Mai/2026)</h3>
+                        <p class="kpi-value-main" id="orcamento-total">R$ 0,00</p>
+                        <p class="kpi-subtitle-main" id="utilizacao-orcamento">0% utilizado • Válido até maio/2026</p>
                     </div>
                 </div>
 
-                <div class="kpi-card purple">
-                    <div class="kpi-icon">📊</div>
-                    <div class="kpi-content">
-                        <h3>Orçamento Total</h3>
-                        <p class="kpi-value" id="orcamento-total">R$ 0,00</p>
-                        <p class="kpi-subtitle" id="utilizacao-orcamento">0% utilizado</p>
-                    </div>
-                </div>
-
-                <div class="kpi-card orange">
-                    <div class="kpi-icon">💳</div>
-                    <div class="kpi-content">
+                <div class="kpi-card-main green">
+                    <div class="kpi-icon-main">💵</div>
+                    <div class="kpi-content-main">
                         <h3>Saldo Disponível</h3>
-                        <p class="kpi-value" id="saldo-disponivel">R$ 0,00</p>
-                        <p class="kpi-subtitle">Restante do orçamento</p>
+                        <p class="kpi-value-main" id="saldo-disponivel">R$ 0,00</p>
+                        <p class="kpi-subtitle-main">Disponível para uso</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card-main dark">
+                    <div class="kpi-icon-main">📈</div>
+                    <div class="kpi-content-main">
+                        <h3>Total Geral</h3>
+                        <p class="kpi-value-main" id="total-geral">R$ 0,00</p>
+                        <p class="kpi-subtitle-main">Passagens + Custos Adicionais</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Análise por Tipo -->
-        <section class="analise-tipo-section">
-            <h2>Análise por Tipo de Passagem</h2>
-            <h3>Distribuição de Custos por Categoria</h3>
-            <div id="tipos-list" class="tipos-list"></div>
-        </section>
-
-        <!-- Análise Mensal -->
-        <section class="analise-mensal-section">
-            <h2>Análise Mensal</h2>
-            <h3>Evolução de Custos ao Longo dos Meses</h3>
-            <div id="meses-list" class="meses-list"></div>
-        </section>
-
-        <!-- Top Solicitantes -->
-        <section class="solicitantes-section">
-            <h2>Top 10 Solicitantes</h2>
-            <h3>Maiores Custos por Solicitante</h3>
-            <div id="solicitantes-list" class="solicitantes-list"></div>
+        <!-- Consumo do Orçamento -->
+        <section class="consumo-orcamento">
+            <h2>Consumo do Orçamento Total</h2>
+            <div class="consumo-info">
+                <div class="consumo-row">
+                    <span>Total Geral Gasto</span>
+                    <span id="consumo-gasto">R$ 0,00</span>
+                </div>
+                <div class="consumo-row">
+                    <span>Orçamento Total</span>
+                    <span id="consumo-orcamento">R$ 0,00</span>
+                </div>
+            </div>
+            <div class="consumo-bar">
+                <div class="consumo-fill" id="consumo-fill"></div>
+            </div>
+            <div class="consumo-legend">
+                <div class="legend-item">
+                    <span class="legend-label" id="consumo-percent">0% consumido</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-label">Saldo Disponível: <span id="consumo-saldo">R$ 0,00</span></span>
+                    <span class="legend-percent" id="saldo-percent">0% restante</span>
+                </div>
+            </div>
         </section>
 
         <!-- Custos Adicionais -->
-        <section class="custos-adicionais-section">
-            <h2>Custos Adicionais</h2>
+        <section class="custos-adicionais">
             <div class="custos-grid">
-                <div class="custo-card">
-                    <h4>🍽️ Alimentação</h4>
-                    <p class="custo-value" id="custo-alimentacao">R$ 0,00</p>
-                    <p class="custo-subtitle" id="qtd-alimentacao">0 itens</p>
+                <div class="custo-card orange">
+                    <div class="custo-icon">📋</div>
+                    <h4>Reembolsos</h4>
+                    <p class="custo-value" id="reembolsos-valor">R$ 0,00</p>
+                    <p class="custo-details" id="reembolsos-details">0 registros • 0% do total</p>
                 </div>
-                <div class="custo-card">
-                    <h4>🏨 Hospedagem</h4>
-                    <p class="custo-value" id="custo-hospedagem">R$ 0,00</p>
-                    <p class="custo-subtitle" id="qtd-hospedagem">0 itens</p>
+
+                <div class="custo-card teal">
+                    <div class="custo-icon">🚌</div>
+                    <h4>Ônibus Fretado</h4>
+                    <p class="custo-value" id="onibus-valor">R$ 0,00</p>
+                    <p class="custo-details" id="onibus-details">0 colaboradores • 0% do total</p>
                 </div>
-                <div class="custo-card">
-                    <h4>🚖 Transporte</h4>
-                    <p class="custo-value" id="custo-transporte">R$ 0,00</p>
-                    <p class="custo-subtitle" id="qtd-transporte">0 itens</p>
+
+                <div class="custo-card pink">
+                    <div class="custo-icon">🏆</div>
+                    <h4>Prêmio Baixada</h4>
+                    <p class="custo-value" id="premio-valor">R$ 0,00</p>
+                    <p class="custo-details" id="premio-details">0 colaboradores • 0% do total</p>
                 </div>
-                <div class="custo-card">
-                    <h4>📋 Outros</h4>
-                    <p class="custo-value" id="custo-outros">R$ 0,00</p>
-                    <p class="custo-subtitle" id="qtd-outros">0 itens</p>
+
+                <div class="custo-card indigo">
+                    <div class="custo-icon">✈️</div>
+                    <h4>Visitas da Sede à Obra</h4>
+                    <p class="custo-value" id="visitas-valor">R$ 0,00</p>
+                    <p class="custo-details" id="visitas-details">0 colaboradores • 0% do total</p>
+                </div>
+
+                <div class="custo-card orange-alt">
+                    <div class="custo-icon">✈️</div>
+                    <h4>Passagens Aéreas</h4>
+                    <p class="custo-value" id="aereas-qtd">0</p>
+                    <p class="custo-details" id="aereas-media">Média: R$ 0,00</p>
                 </div>
             </div>
+        </section>
+
+        <!-- Análise Mensal -->
+        <section class="analise-mensal">
+            <div class="section-header">
+                <h2>Análise Mensal: Gasto x Orçamento Previsto</h2>
+                <select id="filtro-tipo-mensal" class="filtro-select">
+                    <option value="">Todos os Tipos</option>
+                </select>
+            </div>
+            <div id="meses-list" class="meses-list"></div>
+        </section>
+
+        <!-- Análise por Tipo -->
+        <section class="analise-tipo">
+            <h2>Análise por Tipo de Passagem</h2>
+            <div id="tipos-list" class="tipos-grid"></div>
+        </section>
+
+        <!-- Top Visitantes -->
+        <section class="top-visitantes">
+            <h2>📋 Top 6 Visitantes da Sede à Obra</h2>
+            <div id="visitantes-list" class="ranking-list"></div>
+            <div class="ranking-total">
+                <span>Total Top 6:</span>
+                <span id="visitantes-total">R$ 0,00</span>
+            </div>
+        </section>
+
+        <!-- Consultores -->
+        <section class="consultores">
+            <h2>👥 Consultores</h2>
+            <div id="consultores-list" class="ranking-list"></div>
+            <div class="ranking-total">
+                <span>Total Consultores:</span>
+                <span id="consultores-total">R$ 0,00</span>
+            </div>
+            <p class="ranking-subtitle" id="consultores-subtitle">0 passagens • 0 consultores</p>
         </section>
 
         <!-- Footer -->
