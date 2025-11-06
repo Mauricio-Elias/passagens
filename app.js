@@ -43,12 +43,12 @@ function exibirDados(data) {
     document.getElementById('total-geral').textContent = formatarMoeda(data.kpis.total_geral);
     
     // Barra de Consumo
-    document.getElementById('total-gasto').textContent = formatarMoeda(data.kpis.total_geral);
-    document.getElementById('orcamento-total-barra').textContent = formatarMoeda(data.kpis.orcamento_total);
-    document.getElementById('percentual-consumido').textContent = `${utilizacao}% consumido`;
-    document.getElementById('barra-progresso').style.width = `${Math.min(utilizacao, 100)}%`;
-    document.getElementById('saldo-disponivel-barra').textContent = formatarMoeda(data.kpis.saldo_disponivel);
-    document.getElementById('percentual-restante').textContent = `${(100 - parseFloat(utilizacao)).toFixed(1)}% restante`;
+    document.getElementById('consumo-gasto').textContent = formatarMoeda(data.kpis.total_geral);
+    document.getElementById('consumo-orcamento').textContent = formatarMoeda(data.kpis.orcamento_total);
+    document.getElementById('consumo-percent').textContent = `${utilizacao}% consumido`;
+    document.getElementById('consumo-fill').style.width = `${Math.min(utilizacao, 100)}%`;
+    document.getElementById('consumo-saldo').textContent = formatarMoeda(data.kpis.saldo_disponivel);
+    document.getElementById('saldo-percent').textContent = `${(100 - parseFloat(utilizacao)).toFixed(1)}% restante`;
     
     // Custos Adicionais
     if (data.custos_adicionais && data.custos_adicionais.resumo) {
