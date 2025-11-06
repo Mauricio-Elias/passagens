@@ -1,16 +1,12 @@
-// Dados globais
+// Carregar dados do JSON
 let dadosOriginais = null;
 
-// Carregar e exibir dados do dashboard
 async function carregarDados() {
     try {
         const response = await fetch('dashboard_passagens.json');
-        const data = await response.json();
+        dadosOriginais = await response.json();
         
-        dadosOriginais = data;
-        
-        popularFiltros(data);
-        exibirDados(data);
+        exibirDados(dadosOriginais);
         
         // Event listener para filtro mensal
         document.getElementById('filtro-tipo-mensal').addEventListener('change', () => {
@@ -23,275 +19,162 @@ async function carregarDados() {
     }
 }
 
-function popularFiltros(data) {
-    // Popular filtro de tipos para análise mensal
-    const tipos = Object.keys(data.por_tipo);
-    const selectTipo = document.getElementById('filtro-tipo-mensal');
-    tipos.forEach(tipo => {
-        const option = document.createElement('option');
-        option.value = tipo;
-        option.textContent = tipo;
-        selectTipo.appendChild(option);
-    });
-}
-
-function exibirDados(data) {
-    exibirKPIs(data.kpis);
-    exibirConsumoOrcamento(data.kpis);
-    exibirCustosAdicionais(data.custos_adicionais);
-    exibirAnaliseMensal(data.por_mes);
-    exibirAnalisePorTipo(data.por_tipo, data.kpis.custo_total);
-    exibirTopVisitantes(data);
-    exibirConsultores(data);
-    exibirUltimaAtualizacao();
-}
-
-function exibirKPIs(kpis) {
-    document.getElementById('custo-total').textContent = formatarMoeda(kpis.custo_total);
-    document.getElementById('qtd-passagens').textContent = `${kpis.total_passagens} passagens`;
-    document.getElementById('orcamento-total').textContent = formatarMoeda(kpis.orcamento_total);
-    document.getElementById('utilizacao-orcamento').textContent = 
-        `${kpis.utilizacao_orcamento.toFixed(1)}% utilizado • Válido até maio/2026`;
-    document.getElementById('saldo-disponivel').textContent = formatarMoeda(kpis.saldo_disponivel);
-    document.getElementById('total-geral').textContent = formatarMoeda(kpis.total_geral);
-}
-
-function exibirConsumoOrcamento(kpis) {
-    document.getElementById('consumo-gasto').textContent = formatarMoeda(kpis.total_geral);
-    document.getElementById('consumo-orcamento').textContent = formatarMoeda(kpis.orcamento_total);
-    document.getElementById('consumo-saldo').textContent = formatarMoeda(kpis.saldo_disponivel);
-    
-    const percentConsumo = kpis.utilizacao_orcamento;
-    const percentSaldo = 100 - percentConsumo;
-    
-    document.getElementById('consumo-fill').style.width = `${percentConsumo}%`;
-    document.getElementById('consumo-fill').textContent = `${percentConsumo.toFixed(1)}% consumido`;
-    document.getElementById('consumo-percent').textContent = `${percentConsumo.toFixed(1)}% consumido`;
-    document.getElementById('saldo-percent').textContent = `${percentSaldo.toFixed(1)}% restante`;
-}
-
-function exibirCustosAdicionais(custosAdicionais) {
-    if (!custosAdicionais || !custosAdicionais.resumo) return;
-    
-    const resumo = custosAdicionais.resumo;
-    const custoTotal = dadosOriginais.kpis.custo_total;
-    
-    // Reembolsos
-    if (resumo.Reembolsos) {
-        document.getElementById('reembolsos-valor').textContent = formatarMoeda(resumo.Reembolsos.valor);
-        const percent = ((resumo.Reembolsos.valor / custoTotal) * 100).toFixed(1);
-        document.getElementById('reembolsos-details').textContent = 
-            `${resumo.Reembolsos.quantidade} registros • ${percent}% do total`;
-    }
-    
-    // Ônibus Fretado
-    if (resumo['Ônibus Fretado']) {
-        document.getElementById('onibus-valor').textContent = formatarMoeda(resumo['Ônibus Fretado'].valor);
-        const percent = ((resumo['Ônibus Fretado'].valor / custoTotal) * 100).toFixed(1);
-        document.getElementById('onibus-details').textContent = 
-            `${resumo['Ônibus Fretado'].quantidade} colaboradores • ${percent}% do total`;
-    }
-    
-    // Prêmio Baixada
-    if (resumo['Prêmio Baixada']) {
-        document.getElementById('premio-valor').textContent = formatarMoeda(resumo['Prêmio Baixada'].valor);
-        const percent = ((resumo['Prêmio Baixada'].valor / custoTotal) * 100).toFixed(1);
-        document.getElementById('premio-details').textContent = 
-            `${resumo['Prêmio Baixada'].quantidade} colaboradores • ${percent}% do total`;
-    }
-    
-    // Visitas da Sede à Obra
-    if (resumo['Visitas da Sede à Obra']) {
-        document.getElementById('visitas-valor').textContent = formatarMoeda(resumo['Visitas da Sede à Obra'].valor);
-        const percent = ((resumo['Visitas da Sede à Obra'].valor / custoTotal) * 100).toFixed(1);
-        document.getElementById('visitas-details').textContent = 
-            `${resumo['Visitas da Sede à Obra'].quantidade} colaboradores • ${percent}% do total`;
-    }
-    
-    // Passagens Aéreas
-    if (resumo['Passagens Aéreas']) {
-        document.getElementById('aereas-qtd').textContent = resumo['Passagens Aéreas'].quantidade;
-        const media = resumo['Passagens Aéreas'].valor / resumo['Passagens Aéreas'].quantidade;
-        document.getElementById('aereas-media').textContent = `Média: ${formatarMoeda(media)}`;
-    }
-}
-
-function exibirAnaliseMensal(porMes) {
-    const tipoFiltro = document.getElementById('filtro-tipo-mensal').value;
-    
-    const mesesHTML = porMes.map(mesData => {
-        let gasto = mesData.custo_total;
-        
-        // Aplicar filtro de tipo se selecionado
-        if (tipoFiltro) {
-            const passagensTipo = mesData.por_tipo[tipoFiltro] || [];
-            gasto = passagensTipo.reduce((sum, p) => sum + (p.Custo || 0), 0);
-        }
-        
-        const orcado = mesData.orcamento || 0;
-        const percentual = orcado > 0 ? (gasto / orcado) * 100 : 0;
-        
-        let corBarra = 'green';
-        if (percentual > 100) {
-            corBarra = 'red';
-        } else if (percentual >= 80) {
-            corBarra = 'yellow';
-        }
-        
-        const larguraBarra = Math.min(percentual, 100);
-        
-        return `
-            <div class="mes-item">
-                <div class="mes-header">
-                    <span class="mes-nome">${mesData.mes}</span>
-                    <div class="mes-info">
-                        <div class="mes-gasto">Gasto: ${formatarMoeda(gasto)}</div>
-                        <div class="mes-orcado">Orçado: ${formatarMoeda(orcado)}
-                            <span class="mes-percentual">${percentual.toFixed(1)}%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mes-bar">
-                    <div class="mes-fill ${corBarra}" style="width: ${larguraBarra}%"></div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    document.getElementById('meses-list').innerHTML = mesesHTML;
-}
-
-function exibirAnalisePorTipo(porTipo, custoTotal) {
-    const tiposHTML = Object.entries(porTipo)
-        .map(([tipo, passagens]) => {
-            const custo = passagens.reduce((sum, p) => sum + (p.Custo || 0), 0);
-            const percentual = ((custo / custoTotal) * 100).toFixed(1);
-            
-            return `
-                <div class="tipo-card">
-                    <h4>${tipo}</h4>
-                    <div class="tipo-value">${formatarMoeda(custo)}</div>
-                    <div class="tipo-percent">${percentual}% do total</div>
-                </div>
-            `;
-        })
-        .join('');
-    
-    document.getElementById('tipos-list').innerHTML = tiposHTML;
-}
-
-function exibirTopVisitantes(data) {
-    // Buscar passagens de Visitas da Sede à Obra
-    const visitasPassagens = data.por_tipo['Visitas da Sede à Obra'] || [];
-    
-    // Agrupar por solicitante
-    const visitantesMap = {};
-    visitasPassagens.forEach(p => {
-        const nome = p.Solicitante;
-        if (!visitantesMap[nome]) {
-            visitantesMap[nome] = { nome, passagens: 0, custo: 0 };
-        }
-        visitantesMap[nome].passagens += 1;
-        visitantesMap[nome].custo += p.Custo || 0;
-    });
-    
-    // Top 6
-    const topVisitantes = Object.values(visitantesMap)
-        .sort((a, b) => b.custo - a.custo)
-        .slice(0, 6);
-    
-    const visitantesHTML = topVisitantes.map((v, index) => {
-        const media = v.custo / v.passagens;
-        return `
-            <div class="ranking-item">
-                <div class="ranking-position">${index + 1}</div>
-                <div class="ranking-info">
-                    <div class="ranking-nome">${v.nome}</div>
-                    <div class="ranking-detalhes">${v.passagens} passagens</div>
-                </div>
-                <div class="ranking-stats">
-                    <div class="ranking-valor">${formatarMoeda(v.custo)}</div>
-                    <div class="ranking-media">Média: ${formatarMoeda(media)}</div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    document.getElementById('visitantes-list').innerHTML = visitantesHTML;
-    
-    const totalTop6 = topVisitantes.reduce((sum, v) => sum + v.custo, 0);
-    document.getElementById('visitantes-total').textContent = formatarMoeda(totalTop6);
-}
-
-function exibirConsultores(data) {
-    // Buscar passagens de consultores (Outros tipo)
-    const outrosPassagens = data.por_tipo['Outros'] || [];
-    
-    // Filtrar consultores conhecidos
-    const consultoresNomes = ['Claudio Ferreira Barbosa', 'Enrico Pieta'];
-    const consultoresMap = {};
-    
-    outrosPassagens.forEach(p => {
-        const nome = p.Solicitante;
-        if (consultoresNomes.includes(nome)) {
-            if (!consultoresMap[nome]) {
-                consultoresMap[nome] = { nome, passagens: 0, custo: 0 };
-            }
-            consultoresMap[nome].passagens += 1;
-            consultoresMap[nome].custo += p.Custo || 0;
-        }
-    });
-    
-    const consultores = Object.values(consultoresMap)
-        .sort((a, b) => b.custo - a.custo);
-    
-    const consultoresHTML = consultores.map((c, index) => {
-        const media = c.custo / c.passagens;
-        return `
-            <div class="ranking-item">
-                <div class="ranking-position">${index + 1}</div>
-                <div class="ranking-info">
-                    <div class="ranking-nome">${c.nome}</div>
-                    <div class="ranking-detalhes">${c.passagens} passagens</div>
-                </div>
-                <div class="ranking-stats">
-                    <div class="ranking-valor">${formatarMoeda(c.custo)}</div>
-                    <div class="ranking-media">Média: ${formatarMoeda(media)}</div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    document.getElementById('consultores-list').innerHTML = consultoresHTML;
-    
-    const totalConsultores = consultores.reduce((sum, c) => sum + c.custo, 0);
-    const totalPassagens = consultores.reduce((sum, c) => sum + c.passagens, 0);
-    
-    document.getElementById('consultores-total').textContent = formatarMoeda(totalConsultores);
-    document.getElementById('consultores-subtitle').textContent = 
-        `${totalPassagens} passagens • ${consultores.length} consultores`;
-}
-
-function exibirUltimaAtualizacao() {
-    const agora = new Date();
-    const dataFormatada = agora.toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-    document.getElementById('ultima-atualizacao').textContent = dataFormatada;
-}
-
 function formatarMoeda(valor) {
     return new Intl.NumberFormat('pt-BR', {
         style: 'currency',
-        currency: 'BRL',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        currency: 'BRL'
     }).format(valor);
 }
 
-// Carregar dados ao iniciar
+function formatarNumero(valor) {
+    return new Intl.NumberFormat('pt-BR').format(valor);
+}
+
+function exibirDados(data) {
+    // KPIs Principais
+    document.getElementById('custo-total').textContent = formatarMoeda(data.kpis.custo_total);
+    document.getElementById('qtd-passagens').textContent = `${formatarNumero(data.kpis.qtd_passagens)} passagens`;
+    
+    document.getElementById('orcamento-total').textContent = formatarMoeda(data.kpis.orcamento_total);
+    const utilizacao = ((data.kpis.total_geral / data.kpis.orcamento_total) * 100).toFixed(1);
+    document.getElementById('utilizacao-orcamento').textContent = `${utilizacao}% utilizado • Válido até maio/2026`;
+    
+    document.getElementById('saldo-disponivel').textContent = formatarMoeda(data.kpis.saldo_disponivel);
+    document.getElementById('total-geral').textContent = formatarMoeda(data.kpis.total_geral);
+    
+    // Barra de Consumo
+    document.getElementById('total-gasto').textContent = formatarMoeda(data.kpis.total_geral);
+    document.getElementById('orcamento-total-barra').textContent = formatarMoeda(data.kpis.orcamento_total);
+    document.getElementById('percentual-consumido').textContent = `${utilizacao}% consumido`;
+    document.getElementById('barra-progresso').style.width = `${Math.min(utilizacao, 100)}%`;
+    document.getElementById('saldo-disponivel-barra').textContent = formatarMoeda(data.kpis.saldo_disponivel);
+    document.getElementById('percentual-restante').textContent = `${(100 - parseFloat(utilizacao)).toFixed(1)}% restante`;
+    
+    // Custos Adicionais
+    if (data.custos_adicionais && data.custos_adicionais.resumo) {
+        const resumo = data.custos_adicionais.resumo;
+        const totalCustos = data.kpis.total_geral;
+        
+        // Reembolsos
+        if (resumo.Reembolsos) {
+            document.getElementById('reembolsos-valor').textContent = formatarMoeda(resumo.Reembolsos.valor);
+            const percReembolsos = ((resumo.Reembolsos.valor / totalCustos) * 100).toFixed(1);
+            document.getElementById('reembolsos-details').textContent = 
+                `${formatarNumero(resumo.Reembolsos.quantidade)} registros • ${percReembolsos}% do total`;
+        }
+        
+        // Ônibus Fretado
+        if (resumo['Ônibus Fretado']) {
+            document.getElementById('onibus-valor').textContent = formatarMoeda(resumo['Ônibus Fretado'].valor);
+            const percOnibus = ((resumo['Ônibus Fretado'].valor / totalCustos) * 100).toFixed(1);
+            document.getElementById('onibus-details').textContent = 
+                `${formatarNumero(resumo['Ônibus Fretado'].quantidade)} colaboradores • ${percOnibus}% do total`;
+        }
+        
+        // Prêmio Baixada
+        if (resumo['Prêmio Baixada']) {
+            document.getElementById('premio-valor').textContent = formatarMoeda(resumo['Prêmio Baixada'].valor);
+            const percPremio = ((resumo['Prêmio Baixada'].valor / totalCustos) * 100).toFixed(1);
+            document.getElementById('premio-details').textContent = 
+                `${formatarNumero(resumo['Prêmio Baixada'].quantidade)} colaboradores • ${percPremio}% do total`;
+        }
+        
+        // Visitas da Sede
+        if (resumo['Visitas da Sede à Obra']) {
+            document.getElementById('visitas-valor').textContent = formatarMoeda(resumo['Visitas da Sede à Obra'].valor);
+            const percVisitas = ((resumo['Visitas da Sede à Obra'].valor / totalCustos) * 100).toFixed(1);
+            document.getElementById('visitas-details').textContent = 
+                `${formatarNumero(resumo['Visitas da Sede à Obra'].quantidade)} colaboradores • ${percVisitas}% do total`;
+        }
+        
+        // Passagens Aéreas
+        if (resumo['Passagens Aéreas']) {
+            document.getElementById('aereas-qtd').textContent = formatarNumero(resumo['Passagens Aéreas'].quantidade);
+            const mediaAereas = resumo['Passagens Aéreas'].valor / resumo['Passagens Aéreas'].quantidade;
+            document.getElementById('aereas-media').textContent = `Média: ${formatarMoeda(mediaAereas)}`;
+        }
+    }
+    
+    // Análise Mensal
+    exibirAnaliseMensal(data.por_mes);
+    
+    // Análise por Tipo
+    exibirAnalisePorTipo(data.por_tipo);
+    
+    // Top Visitantes e Consultores
+    exibirTopVisitantes(data);
+    exibirConsultores(data);
+}
+
+function exibirAnaliseMensal(dadosMensais) {
+    const container = document.getElementById('analise-mensal-list');
+    const filtroTipo = document.getElementById('filtro-tipo-mensal').value;
+    
+    container.innerHTML = '';
+    
+    dadosMensais.forEach(mes => {
+        const mesDiv = document.createElement('div');
+        mesDiv.className = 'mes-card';
+        
+        const percentual = (mes.custo_total / mes.orcamento) * 100;
+        let corBarra = 'verde';
+        if (percentual > 100) corBarra = 'vermelho';
+        else if (percentual >= 80) corBarra = 'amarelo';
+        
+        mesDiv.innerHTML = `
+            <div class="mes-header">
+                <span class="mes-nome">${mes.mes}</span>
+                <div class="mes-valores">
+                    <div>Gasto: ${formatarMoeda(mes.custo_total)}</div>
+                    <div>Orçado: ${formatarMoeda(mes.orcamento)} <strong>${percentual.toFixed(1)}%</strong></div>
+                </div>
+            </div>
+            <div class="mes-barra">
+                <div class="barra-progresso-mes ${corBarra}" style="width: ${Math.min(percentual, 100)}%"></div>
+            </div>
+        `;
+        
+        container.appendChild(mesDiv);
+    });
+}
+
+function exibirAnalisePorTipo(dadosPorTipo) {
+    const container = document.getElementById('analise-tipo-list');
+    container.innerHTML = '';
+    
+    dadosPorTipo.forEach(tipo => {
+        const tipoDiv = document.createElement('div');
+        tipoDiv.className = 'tipo-card';
+        
+        tipoDiv.innerHTML = `
+            <div class="tipo-header">
+                <h4>${tipo.tipo}</h4>
+                <span class="tipo-percentual">${tipo.percentual.toFixed(1)}%</span>
+            </div>
+            <div class="tipo-valores">
+                <span>${formatarMoeda(tipo.custo_total)}</span>
+                <span>${formatarNumero(tipo.quantidade)} passagens</span>
+            </div>
+            <div class="tipo-barra">
+                <div class="barra-progresso-tipo" style="width: ${tipo.percentual}%"></div>
+            </div>
+        `;
+        
+        container.appendChild(tipoDiv);
+    });
+}
+
+function exibirTopVisitantes(data) {
+    // Esta função precisa de dados específicos de visitantes
+    // Por enquanto, deixar zerado até termos os dados corretos
+    document.getElementById('visitantes-total').textContent = 'R$ 0,00';
+}
+
+function exibirConsultores(data) {
+    // Esta função precisa de dados específicos de consultores
+    // Por enquanto, deixar zerado até termos os dados corretos
+    document.getElementById('consultores-total').textContent = 'R$ 0,00';
+}
+
+// Inicializar ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarDados);
